@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>main module &#8212; ppy_projekt 0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=4c645c95"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="genindex.html" />
+    <link rel="search" title="Szukaj" href="search.html" />
+    <link rel="next" title="pet module" href="pet.html" />
+    <link rel="prev" title="src" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-main">
+<span id="main-module"></span><h1>main module<a class="headerlink" href="#module-main" title="Link to this heading">¶</a></h1>
+<p>main.py - Moduł zarządzający główną logiką i interfejsem aplikacji.</p>
+<dl class="simple">
+<dt>Global variables:</dt><dd><p>pets (list[str]): Lista z nazwami plików obrazów dostępnych zwierzaków.
+selected_pet_index (int): Index aktualnie wyświetlanego zwierzaka z listy „pets”.
+mode (str): Tryb gry. („select”, „game”)</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="main.animate_pet">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">animate_pet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pet_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.animate_pet" title="Link to this definition">¶</a></dt>
+<dd><p>Funckja do animacji obrazu zwierzaka.</p>
+<p>Funkcja wewnętrzna „pet_animation()” rekurencyjnie, co sekundę, jeśli zmienna globalna „mode” ma wartość „game” i stan zwierzaka „pet.state” ma wartość „none”, wyświetla na podanym płótnie obraz zwierzaka o podanym indeksie,
+zmieniając jego pozycję przy każdym wywołaniu, na zmianę przesuwając go w górę i w dół.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, na którym wywoływana jest metoda after().
+canvas (tk.Canvas): Płótno, na którym wyświetlana jest animacja.
+bg_file (str): Nazwa pliku, który jest tłem, na którym wyświetlana jest animacja.
+pet_index (int): Index zwierzaka z listy „pets”, który ma zostać wyświetlony.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.feed">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">feed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.feed" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja realizująca karmienie zwierzaka.</p>
+<p>Jeśli zwierzak jest w stanie „eating”, funkcja wewnętrzna „feed_animation()” wyświetla po kolei serię grafik imitujących zjadane jedzenie, z odstępem 1 sekundy,
+po czym zwiększa poziom głodu, ustawia stan zwierzaka na „none” i aktualizuje interface gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji.
+canvas (tk.Canvas): Płótno, na którym wyświetlane są grafiki gry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.game">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.game" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja realizująca tryb gry.</p>
+<p>Funkcja usuwa wszystkie widgety z podanego okna, oprócz obiektów klasy tk.Canvas i załadowuje na podane płótno wybranego zwierzaka.
+Funkcja tworzy i umieszcza na podanym oknie przyciski odpowiadające za karmienie, zabawę, sen oraz zmianę zwierzaka.
+Wyświetla na podanym płótnie statystyki zwierzaka i uruchamia jego animację, po czym zaczyna obniżać statystki zwierzaka.
+Jeśli zmienna globalna „pet.state” ma wartość „eating”, funkcja realizuje karmienie, jeśli „playing”, realizuje zabawę, jeśli „sleeping”, realizuje sen i zaczyna zwiększać poziom zmęczenia.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji.
+canvas (tk.Canvas): Płótno, na którym wyświetlane są grafiki gry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.load_asset">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">load_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.load_asset" title="Link to this definition">¶</a></dt>
+<dd><p>Wkleja podany asset na podane tło i wyświetla go na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlany jest obraz.
+bg (Image.Image): Tło, do którego doklejany jest asset.
+asset (Image.Image): Element doklejany do tła.
+x (int): Opcjonalna wartość, o jaką asset jest przesuwany w prawo.
+y (int): Opcjonalna wartość, o jaką asset jest przesuwany w górę.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.load_pet">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">load_pet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pet_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.load_pet" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja do wyświetlania podanego zwierzaka.</p>
+<p>Usuwa wszystkie elementy z płótna, po czym wyświetla, na podanym płótnie, obraz zwierzaka o podanym indeksie na podanym tle.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlany jest obraz.
+bg_file (str): Nazwa pliku, który jest tłem, do którego doklejany jest obraz zwierzaka.
+pet_index (int): Index zwierzaka z listy „pets”, który ma zostać wyświetlony.
+x (int): Opcjonalna wartość, o jaką obraz zwierzaka jest przesuwany w prawo.
+y (int): Opcjonalna wartość, o jaką obraz zwierzaka jest przesuwany w górę.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.main">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.main" title="Link to this definition">¶</a></dt>
+<dd><p>Tworzy główne okno aplikacji, ustawia jego tytuł, rozmiar i właściwości, tworzy płótno, po czym uruchamia główną pętlę programu.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_change_pet">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_change_pet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_change_pet" title="Link to this definition">¶</a></dt>
+<dd><p>Realizuje przejście z trybu gry do trybu wyboru zwierzaka.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcji update().
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcji update().</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_click_left">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_click_left</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_click_left" title="Link to this definition">¶</a></dt>
+<dd><p>Zmienia obraz zwierzaka na podanym płótnie na poprzedniego zwierzaka, jeśli taki jest, z listy zwierzaków do wyboru.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlany jest zwierzak do wyboru.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_click_right">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_click_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_click_right" title="Link to this definition">¶</a></dt>
+<dd><p>Zmienia obraz zwierzaka na podanym płótnie na następnego zwierzaka, jeśli taki jest, z listy zwierzaków do wyboru.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlany jest zwierzak do wyboru.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_enter">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_enter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_enter" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja obsługująca wciśnięcie klawisza Enter w trybie wyboru zwierzaka.</p>
+<p>Realizuje przejście z trybu wyboru zwierzaka do trybu gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>event: Obiekt zdarzenia przekazany przez tkinter.
+window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcji update().
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcji update().</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_feed">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_feed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_feed" title="Link to this definition">¶</a></dt>
+<dd><p>Jeśli stan zwierzaka jest inny niż „eating”, zmienia wartość zmiennej „pet.state” na „eating”, i aktualizuje interface gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcji update().
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcji update().</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_play">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_play" title="Link to this definition">¶</a></dt>
+<dd><p>Jeśli stan zwierzaka jest inny niż „playing”, zmienia wartość zmiennej „pet.state” na „playing”, i aktualizuje interface gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcji update().
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcji update().</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.on_sleep">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">on_sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.on_sleep" title="Link to this definition">¶</a></dt>
+<dd><p>Jeśli stan zwierzaka jest „sleeping” zmienia wartość zmiennej „pet.state” na „none”, w przeciwnym wypadku, zmienia jej wartość na „sleeping”, i aktualizuje interface gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcji update().
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcji update().</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.play">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.play" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja realizująca zabawę ze zwierzakiem.</p>
+<p>Jeśli zwierzak jest w stanie „playing”, funkcja wewnętrzna „play_animation()”, 2 razy, co sekundę, wyświetla na zmianę 2 grafiki,
+po czym zwiększa poziom nudy, ustawia stan zwierzaka na „none” i aktualizuje interface gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji.
+canvas (tk.Canvas): Płótno, na którym wyświetlane są grafiki gry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.select">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.select" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja realizująca tryb wyboru zwierzaka.</p>
+<p>Funkcja ustawia zmienną globalną „selected_pet_index” na 0, anuluje wszystkie istniejące timery, restartuje statystyki zwierzaka i ustawia stan zwierzaka „pet.state” na „none”.
+Funkcja usuwa wszystkie widgety z podanego okna, oprócz obiektów klasy tk.Canvas i załadowuje na podanym płótnie pierwszego zwierzaka z listy zwierzaków do wyboru.
+Funkcja tworzy i umieszcza na podanym oknie przyciski odpowiadające za poruszanie się po dostępnych zwierzakach i dodaje do okna obsługę wciśnięcia klawisza Enter w tym trybie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji.
+canvas (tk.Canvas): Płótno, na którym wyświetlane są grafiki gry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.sleep">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.sleep" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja realizująca zasypianie zwierzaka.</p>
+<p>Jeśli zwierzak jest w stanie „sleeping”, funkcja wewnętrzna „sleep_animation()”, rekurencyjnie, co sekundę, wyświetla na zmianę 2 grafiki imitujące sen.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji.
+canvas (tk.Canvas): Płótno, na którym wyświetlane są grafiki gry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.update">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.update" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja aktualizująca interface aplikacji w zależności od trybu gry.</p>
+<p>Jeśli zmienna globalna „mode” ma wartość „select”, funkcja realizuje tryb wyboru zwierzaka, jeśli ma wartość „game”, realizuje tryb gry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcjach select() i game().
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcjach select() i game().</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ppy_projekt</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pet.html">pet module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">src</a><ul>
+      <li>Previous: <a href="modules.html" title="poprzedni rozdział">src</a></li>
+      <li>Next: <a href="pet.html" title="następny rozdział">pet module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, s29788.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/main.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pet module &#8212; ppy_projekt 0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=4c645c95"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="genindex.html" />
+    <link rel="search" title="Szukaj" href="search.html" />
+    <link rel="prev" title="main module" href="main.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-pet">
+<span id="pet-module"></span><h1>pet module<a class="headerlink" href="#module-pet" title="Link to this heading">¶</a></h1>
+<p>pet.py - Moduł zarządzający statystykami i stanem zwierzaka.</p>
+<dl class="simple">
+<dt>Global variables:</dt><dd><p>hunger (int): Poziom głodu zwierzaka (0-100).
+    fun (int): Poziom nudy zwierzaka (0-100).
+    sleep (int): Poziom zmęczenia zwierzaka (0-100).
+    state (str): Stan, w którym znajduje się zwierzak („none”, „eating”, „playing”, „sleeping”).
+    started (bool): Boolean, którego wartość informuje, czy gra się zaczęła.
+    hunger_timer (int): Id timera kontrolującego spadek poziomu głodu.
+    fun_timer (int): Id timera kontrolującego spadek poziomu nudy.
+    sleep_timer (int): Id timera kontrolującego spadek i wzrost poziomu zmęczenia.</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.cancel_timers">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">cancel_timers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.cancel_timers" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja do anulowania timerów.</p>
+<p>Funkcja anuluje wszystkie timery, przechowywane w zmiennych globalnych „hunger_timer”, „fun_timer” i „sleep_timer”, podanego okna, po czym każdemu z nich przypisuje wartość „None”.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, na którym wywoływana jest metoda after_cancel().</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.decrease_fun">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">decrease_fun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.decrease_fun" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja do cykliczngo odniżania poziomu nudy zwierzaka.</p>
+<p>Funkcja wewnętrzna „decrease()” rekurencyjnie, co 64 sekundy, jeśli wartość poziomu nudy jest niemniejsza od 5 i stan zwierzaka jest różny od „playing”, obniża wartość poziomu nudy o 5 i aktualizuje statystyki na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, na którym wywoływana jest metoda after().
+canvas (tk.Canvas): Płótno, na którym aktualizowane są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.decrease_hunger">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">decrease_hunger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.decrease_hunger" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja do cykliczngo odniżania poziomu głodu zwierzaka.</p>
+<p>Funkcja co 45 sekund wywołuje zdefiniowaną wewnątrz funkcję „decrease()”.
+Funkcja wewnętrzna „decrease()” rekurencyjnie, co 45 sekund, jeśli wartość poziomu głodu jest niemniejsza od 5 i stan zwierzaka jest różny od „eating”, obniża wartość poziomu głodu o 5 i aktualizuje statystyki na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, na którym wywoływana jest metoda after().
+canvas (tk.Canvas): Płótno, na którym aktualizowane są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.decrease_sleep">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">decrease_sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.decrease_sleep" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja do cykliczngo odniżania poziomu zmęczenia zwierzaka.</p>
+<p>Funkcja wewnętrzna „decrease()” rekurencyjnie, co 90 sekund, jeśli wartość poziomu zmęczenia jest niemniejsza od 5 i stan zwierzaka jest różny od „sleeping”, obniża wartość poziomu zmęczenia o 5 i aktualizuje statystyki na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, na którym wywoływana jest metoda after().
+canvas (tk.Canvas): Płótno, na którym aktualizowane są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.increase_fun">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">increase_fun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.increase_fun" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja zwiększająca poziom nudy zwierzaka.</p>
+<p>Jeśli stan zwierzaka ma wartość „playing”, funkcja podnosi poziom nudy zwierzaka w zależności od jego aktualnej wartości, po czym aktualizuje statystyki na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym aktualizowane są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.increase_hunger">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">increase_hunger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.increase_hunger" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja zwiększająca poziom głodu zwierzaka.</p>
+<p>Jeśli stan zwierzaka ma wartość „eating”, funkcja podnosi poziom głodu zwierzaka w zależności od jego aktualnej wartości, po czym aktualizuje statystyki na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym aktualizowane są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.increase_sleep">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">increase_sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.increase_sleep" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja do cykliczngo zwiększania poziomu zmęczenia zwierzaka.</p>
+<p>Funkcja wewnętrzna „increase()”, rekurencyjnie, co 16 sekund, jeśli stan zwierzaka ma wartość „sleeping” i wartość poziomu zmęczenia jest niewiększa od 95, zwiększa wartość poziomu zmęczenia o 5 i aktualizuje statystyki na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, na którym wywoływana jest metoda after().
+canvas (tk.Canvas): Płótno, na którym aktualizowane są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.load_fun">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">load_fun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.load_fun" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla wartość poziomu nudy zwierzaka na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlony jest poziom nudy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.load_hunger">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">load_hunger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.load_hunger" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla wartość poziomu głodu zwierzaka na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlony jest poziom głodu.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.load_sleep">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">load_sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.load_sleep" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla wartość poziomu zmęczenia zwierzaka na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlony jest poziom zmęczenia.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.load_stats">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">load_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.load_stats" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla wszystkie statystyki zwierzaka na podanym płótnie.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlone są statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.restart_stats">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">restart_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pet.restart_stats" title="Link to this definition">¶</a></dt>
+<dd><p>Zmienia wartości poziomu głodu, nudy i zmęczenia zwierzaka na początkowe (100), a zmiennej globalnej „started” przypisuje wartość „False”.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.set_state">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">set_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.set_state" title="Link to this definition">¶</a></dt>
+<dd><p>Zmienia stan zwierzaka.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>s (str): Stan, jaki przyjmuje zwierzak.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.start_decrease">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">start_decrease</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.start_decrease" title="Link to this definition">¶</a></dt>
+<dd><p>Uruchamia funkcje, które zaczynają obniżać poziom głodu, nudy i zmęczenia zwierzaka.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>window (tk.Tk): Główne okno aplikacji, przekazane jako argument w funkcjach obniżających statystyki.
+canvas (tk.Canvas): Płótno przekazane jako argument w funkcjach obniżających statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet.update_stats">
+<span class="sig-prename descclassname"><span class="pre">pet.</span></span><span class="sig-name descname"><span class="pre">update_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pet.update_stats" title="Link to this definition">¶</a></dt>
+<dd><p>Funkcja aktualizująca statystyki zwierzaka.</p>
+<p>Funkcja usuwa wszystkie statystyki na podanym płótnie, po czym wyświetla na nim aktualne statystyki.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>canvas (tk.Canvas): Płótno, na którym wyświetlone są zaktualizowane statystyki.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ppy_projekt</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pet module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">src</a><ul>
+      <li>Previous: <a href="main.html" title="poprzedni rozdział">main module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, s29788.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/pet.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
